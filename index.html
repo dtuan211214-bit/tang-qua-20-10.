@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chúc Mừng Ngày 20/10 ✨</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: linear-gradient(135deg, #ffe5ec, #ffb3c6);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Hiệu ứng hoa rơi */
+        .petal {
+            position: absolute;
+            top: -20px;
+            pointer-events: none;
+            animation: fall linear infinite;
+            color: #ff4d6d;
+            font-size: 20px;
+        }
+        @keyframes fall {
+            to {
+                transform: translateY(105vh) rotate(360deg);
+            }
+        }
+
+        /* Hộp quà ban đầu */
+        .gift-container {
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+            z-index: 10;
+        }
+        .gift-container:hover {
+            transform: scale(1.1);
+        }
+        .gift-box {
+            font-size: 100px;
+            animation: bounce 1.5s infinite;
+        }
+        .gift-text {
+            font-size: 20px;
+            color: #ff4d6d;
+            font-weight: bold;
+            margin-top: 15px;
+            background: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        /* Khung nội dung chúc mừng */
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            border: 2px solid #ffb3c6;
+            display: none; /* Ẩn đi, hiện sau khi mở quà */
+            z-index: 10;
+            animation: scaleUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        h1 {
+            color: #ff4d6d;
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        .wishes {
+            font-size: 18px;
+            color: #4a4a4a;
+            line-height: 1.6;
+            min-height: 80px;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        .heart {
+            color: #ff4d6d;
+            font-size: 40px;
+            animation: beat 0.8s infinite alternate;
+        }
+
+        /* Animation định nghĩa */
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        @keyframes scaleUp {
+            from { transform: scale(0.7); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        @keyframes beat {
+            to { transform: scale(1.2); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Nhạc nền (Thay link src bằng file nhạc của bạn nếu muốn) -->
+    <audio id="bg-music" loop>
+        <source src="https://soundhelix.com" type="audio/mpeg">
+    </audio>
+
+    <!-- Màn hình hộp quà ban đầu -->
+    <div class="gift-container" id="gift-box" onclick="openGift()">
+        <div class="gift-box">🎁</div>
+        <div class="gift-text">Bấm vào đây để mở quà 20/10 nhé! ❤️</div>
+    </div>
+
+    <!-- Khung thiệp chúc mừng -->
+    <div class="card" id="main-card">
+        <h1>Chúc Mừng Ngày Phụ Nữ Việt Nam! 🌹</h1>
+        <div class="wishes" id="wishes-text"></div>
+        <div class="heart">❤️</div>
+    </div>
+
+    <script>
+        // Danh sách câu chúc chạy chữ ngẫu nhiên hoặc hiển thị lần lượt
+        const wishMessage = "Chúc người phụ nữ tuyệt vời đang đọc dòng chữ này luôn xinh đẹp, hạnh phúc, rạng rỡ và tràn ngập niềm vui trong ngày 20/10! Cảm ơn bạn vì đã xuất hiện và làm cho thế giới này trở nên ngọt ngào hơn rất nhiều! ✨🌹";
+
+        // Hàm hiệu ứng gõ chữ (Typewriter Effect)
+        function typeWriter(text, i, fnCallback) {
+            if (i < text.length) {
+                document.getElementById("wishes-text").innerHTML = text.substring(0, i+1) + '<span aria-hidden="true"></span>';
+                setTimeout(function() {
+                    typeWriter(text, i + 1, fnCallback)
+                }, 50);
+            } else if (typeof fnCallback == 'function') {
+                setTimeout(fnCallback, 700);
+            }
+        }
+
+        // Hàm xử lý kích hoạt khi mở quà
+        function openGift() {
+            // 1. Phát nhạc nền
+            const music = document.getElementById("bg-music");
+            music.play().catch(error => console.log("Trình duyệt chặn tự động phát âm thanh:", error));
+
+            // 2. Ẩn hộp quà, hiện thiệp chúc
+            document.getElementById("gift-box").style.display = "none";
+            const card = document.getElementById("main-card");
+            card.style.display = "block";
+
+            // 3. Chạy chữ lời chúc
+            typeWriter(wishMessage, 0);
+
+            // 4. Tạo hiệu ứng cánh hoa rơi liên tục
+            setInterval(createPetal, 300);
+        }
+
+        // Hàm tạo hoa rơi ngẫu nhiên
+        function createPetal() {
+            const symbols = ['🌸', '🌹', '❤️', '🌺', '✨'];
+            const petal = document.createElement('div');
+            petal.classList.add('petal');
+            
+            // Chọn ngẫu nhiên biểu tượng hoa/tim
+            petal.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+            
+            // Vị trí và thuộc tính rơi ngẫu nhiên
+            petal.style.left = Math.random() * 100 + 'vw';
+            petal.style.animationDuration = Math.random() * 3 + 2 + 's'; // từ 2s đến 5s
+            petal.style.fontSize = Math.random() * 15 + 15 + 'px'; // kích thước từ 15px - 30px
+            
+            document.body.appendChild(petal);
+
+            // Tự động xóa cánh hoa sau khi rơi xong để tránh lag máy
+            setTimeout(() => {
+                petal.remove();
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
